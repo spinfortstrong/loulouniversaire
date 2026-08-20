@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Une question importante 🎂</title>
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255,255,255,0.9);
+            padding: 50px;
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            font-size: 35px;
+            color: #ff4d6d;
+        }
+
+        p {
+            font-size: 20px;
+        }
+
+        #oui {
+            margin-top: 30px;
+            padding: 15px 35px;
+            font-size: 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            background: #ff4d6d;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        #oui:hover {
+            transform: scale(1.1);
+        }
+
+        #compteur {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #777;
+        }
+
+        #felicitation {
+            display: none;
+        }
+
+        .coeur {
+            position: absolute;
+            font-size: 30px;
+            animation: tomber 4s linear forwards;
+        }
+
+        @keyframes tomber {
+            from {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container" id="question">
+
+    <h1>🎁 Héé toii j'ai une petite question...</h1>
+
+    <p>
+        Est-ce que c'est bien aujourd'hui ton anniversaire ? 🎂
+    </p>
+
+    <button id="oui">
+        OUI ❤️
+    </button>
+
+    <div id="compteur">
+    </div>
+
+</div>
+
+
+<div class="container" id="felicitation">
+
+    <h1>🎉 JOYEUX ANNIVERSAIRE 🎂</h1>
+
+    <p>
+        ❤️Chouuuu passes une incroyable journée entre cop's (sans moi snif)❤️
+    </p>
+
+    <p>
+        Trop hâte de te revoir pour laisser place aux surprises...😏🎁
+    </p>
+
+</div>
+
+
+<script>
+
+    const bouton = document.getElementById("oui");
+    const compteur = document.getElementById("compteur");
+
+    let essais = 0;
+    const maximum = 5;
+
+
+    bouton.addEventListener("mouseenter", function() {
+
+        if (essais >= maximum) {
+            return;
+        }
+
+        essais++;
+
+        compteur.textContent = `Tentative : ${essais} / ${maximum}`;
+
+
+        if (essais < maximum) {
+
+            const largeur = window.innerWidth - bouton.offsetWidth;
+            const hauteur = window.innerHeight - bouton.offsetHeight;
+
+            const x = Math.random() * largeur;
+            const y = Math.random() * hauteur;
+
+            bouton.style.position = "fixed";
+            bouton.style.left = x + "px";
+            bouton.style.top = y + "px";
+
+
+            if (essais === 1) {
+                bouton.textContent = "Essaie encore 😏";
+            }
+
+            if (essais === 2) {
+                bouton.textContent = "Raté 😂";
+            }
+
+            if (essais === 3) {
+                bouton.textContent = "Presque ! 👀";
+            }
+
+            if (essais === 4) {
+                bouton.textContent = "Encore une fois 😈";
+            }
+
+        } else {
+
+            bouton.textContent = "OK... TU PEUX CLIQUER ❤️";
+
+            bouton.style.position = "static";
+
+            compteur.textContent = "Bon... tu as gagné 😂❤️";
+        }
+
+    });
+
+
+    bouton.addEventListener("click", function() {
+
+        if (essais < maximum) {
+            return;
+        }
+
+        document.getElementById("question").style.display = "none";
+        document.getElementById("felicitation").style.display = "block";
+
+        lancerConfettis();
+
+    });
+
+
+    function lancerConfettis() {
+
+        for (let i = 0; i < 50; i++) {
+
+            const coeur = document.createElement("div");
+
+            coeur.classList.add("coeur");
+
+            coeur.textContent = ["❤️", "💖", "💕", "🎉", "🎂", "🎈"][Math.floor(Math.random() * 6)];
+
+            coeur.style.left = Math.random() * 100 + "vw";
+
+            coeur.style.animationDuration =
+                (Math.random() * 3 + 2) + "s";
+
+            document.body.appendChild(coeur);
+
+            setTimeout(() => {
+                coeur.remove();
+            }, 5000);
+        }
+    }
+
+</script>
+
+</body>
+</html>
